@@ -1,3 +1,3 @@
 import Vue from 'vue'
-import { Cell } from 'vant'
-Vue.use(Cell)
+import { Button } from 'vant'
+Vue.use(Button)
