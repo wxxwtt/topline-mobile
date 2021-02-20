@@ -16,8 +16,8 @@ request.defaults.transformResponse = [function (data) {
 // Add a request interceptor
 request.interceptors.request.use(function (config) {
   // Do something before request is sent
-  const { user } = store.state
-  user && (config.headers.Authorization = `Bearer ${user.token}`)
+  const { userInfo } = store.state
+  userInfo && (config.headers.Authorization = `Bearer ${userInfo.token}`)
   return config
 }, function (error) {
   // Do something with request error

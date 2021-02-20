@@ -83,6 +83,7 @@ export default {
           type: 'updatedUser',
           userInfo: data.data
         })
+        this.$router.back()
       } catch (error) {
         this.$toast.fail('登录失败')
       }
