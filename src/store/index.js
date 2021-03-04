@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo: getItem('user')
+    userInfo: getItem('user') || null,
+    userChannels: getItem('userChannels') || []
   },
   mutations: {
     updatedUser (state, payload) {

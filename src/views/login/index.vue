@@ -46,8 +46,8 @@ export default {
       time: 60 * 1000,
       countDownFlag: false,
       user: {
-        mobile: '',
-        code: ''
+        mobile: '13911111111',
+        code: '246810'
       }
     }
   },
@@ -83,6 +83,8 @@ export default {
           type: 'updatedUser',
           userInfo: data.data
         })
+        // this.$router.back()
+        // const redirect = this.$route.query.redirect || '/'
         this.$router.back()
       } catch (error) {
         this.$toast.fail('登录失败')

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function _debounce(callback, time) {
+      var timer = null
+      return function (...arg) {
+        if (timer) {
+          clearTimeout(timer)
+        }
+        timer = setTimeout(() => {
+          callback && callback(arg)
+        }, time)
+      }
+    }
+    function foo() {
+      console.log('hello')
+      fetch('https://toutiao.m.lipengzhou.com/api/app/v1_0/user/channels').then(res => {
+        console.log(res)
+      })
+    }
+    const fn = _debounce(foo, 2000)
+    function throttle(callback, interval) {
+      // 最后一次的调用时间
+      let lastTime = 0;
+
+      // 定时器
+      let timer = null;
+
+      // 返回一个函数
+      return function () {
+        // 清除定时器
+        clearTimeout(timer);
+
+        // 当前最新时间
+        let nowTime = Date.now();
+
+        // 如果当前最新时间 - 上一次时间 >= 时间间隔
+        // 或者没有上一次时间，那就立即调用
+        if (nowTime - lastTime >= interval) {
+          callback();
+
+          // 记录最后一次的调用时间
+          // 1
+          lastTime = nowTime;
+        } else {
+          timer = setTimeout(() => {
+            callback();
+          }, interval);
+        }
+      };
+    }
+
+    // const foo = throttle(函数, 1000);
+    const fn2 = throttle(foo, 2000);
+    function _throttle(callback, time) {
+      let lastTime = 0
+      let timer = null
+      return function () {
+        let nowTime = Date.now()
+        clearTimeout(timer)
+        if(nowTime - lastTime >= time) {
+          lastTime = nowTime
+          callback()
+        }else {
+          timer = setTimeout(() => {
+            callback()
+          },time)
+        }
+      }
+    }
+    const fn3 = _throttle(foo, 2000);
+
+  </script>
+</body>
+
+</html>

@@ -13,6 +13,8 @@ import './styles/index.styl'
 // 引入验证规则
 import './utils/validation'
 
+// 引入时间处理
+import './utils/datetime'
 Vue.config.productionTip = false
 
 new Vue({

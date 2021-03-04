@@ -1,6 +1,10 @@
 <template>
   <div class="nav">
-    <van-nav-bar title="首页" fixed :border="false"/>
+    <van-nav-bar title="首页" fixed :border="false">
+      <template #right >
+        <van-icon name="search" size="20" @click="navSeach" />
+      </template>
+    </van-nav-bar>
     <van-tabs v-model="active">
       <van-icon class="menu" name="bars"  @click="isEditChannels = true" />
 
@@ -9,8 +13,16 @@
       </van-tab>
     </van-tabs>
     <!-- 编辑频道 -->
-    <van-action-sheet v-model="isEditChannels" title="频道管理">
-      <channels-edit  :userChannels="channels"></channels-edit>
+    <van-action-sheet
+      v-model="isEditChannels"
+      title="频道管理"
+    >
+      <channels-edit
+        :userChannels="channels"
+        v-model="active"
+        @onClose="isEditChannels = false"
+
+      ></channels-edit>
     </van-action-sheet>
 
   </div>
@@ -20,6 +32,8 @@
 import { getUserChannels } from '@/api/user'
 import ArticleList from './components/ArticleList'
 import ChannelsEdit from './components/ChannelsEdit'
+import { getItem } from '@/utils/storage'
+
 export default {
   name: 'HomePage',
   components: {
@@ -29,7 +43,7 @@ export default {
   props: {},
   data () {
     return {
-      active: '0',
+      active: 0,
       channels: [], // 频道
       isEditChannels: false // 编辑显示状态
     }
@@ -44,12 +58,21 @@ export default {
   },
   methods: {
     async loadUserChannels () {
-      try {
-        const { data } = await getUserChannels()
-        this.channels = data.data.channels
-      } catch (error) {
-        console.log(error)
+      const channels = getItem('userChannels')
+      if (channels) {
+        this.channels = channels
+      } else {
+        try {
+          const { data } = await getUserChannels()
+          this.channels = data.data.channels
+        } catch (error) {
+          console.log(error)
+        }
       }
+    },
+    navSeach () {
+      console.log(12313213)
+      this.$router.push({ name: 'search' })
     }
   }
 }
@@ -75,6 +98,10 @@ export default {
   box-shadow -1px 0px 2px #e8e8e8
   background #fff
 .van-action-sheet {
-  max-height 100%
+  height 100vh
+  max-height 100vh
+}
+.van-nav-bar .van-icon {
+  color #fff
 }
 </style>
